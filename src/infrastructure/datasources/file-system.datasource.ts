@@ -5,10 +5,14 @@ import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity';
 
 export class FileSystemDatasource implements LogDataSource {
   private readonly logPath = 'logs/';
+  private readonly allLogsPath = `${this.logPath}/all.log`;
+  private readonly mediumLogsPath = `${this.logPath}/medium.log`;
+  private readonly highLogsPath = `${this.logPath}/high.log`;
+
   private readonly logFilesPath = [
-    `${this.logPath}/all.log`,
-    `${this.logPath}/medium.log`,
-    `${this.logPath}/high.log`,
+    this.allLogsPath,
+    this.mediumLogsPath,
+    this.highLogsPath,
   ];
 
   constructor() {
@@ -23,8 +27,18 @@ export class FileSystemDatasource implements LogDataSource {
     });
   };
 
-  saveLog(log: LogEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+  async saveLog(newLog: LogEntity): Promise<void> {
+    const newLogAsJson = `${JSON.stringify(newLog)}\n`
+
+    fs.appendFileSync(this.allLogsPath, newLogAsJson);
+
+    this.logFilesPath.forEach((path) => {
+      const logLevel = newLog.level.toLocaleLowerCase();
+
+      if (path.includes(logLevel)) fs.appendFileSync(path, newLogAsJson);
+    })
+
+
   }
   getLogs(severityLevel: LogSeverityLevel): Promise<void> {
     throw new Error('Method not implemented.');
