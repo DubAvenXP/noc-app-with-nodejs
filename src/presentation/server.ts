@@ -5,7 +5,11 @@ export class Server {
   public static start(): void {
     console.log('Server started...');
     CronService.createJob('*/5 * * * * *', () => {
-      new CheckService().execute('https://google.com')
+      const url = 'https://google.com';
+      new CheckService(
+        () => console.log(`${url} is ok`),
+        (error) => console.log(error)
+      ).execute(url)
     });
   }
 }
