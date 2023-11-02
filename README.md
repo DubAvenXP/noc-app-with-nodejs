@@ -14,5 +14,3 @@ To save logs, you can choose between three different storage options: FileSystem
 Each storage option has its own implementation, which can be found in the `src/infrastructure` directory.
 
 Using the repository pattern, the app can easily be extended to support other storage options.
-
-For more information on how to use the app, please refer to the README file in the root directory of the project.
