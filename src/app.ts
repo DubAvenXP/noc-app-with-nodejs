@@ -1,2 +1,9 @@
-export const name: string = 'typescript';
-console.log(`Hello ${name}!`);
+import { Server } from "./presentation/server";
+
+(async () => {
+  main();
+})();
+
+function main() {
+  Server.start();
+}
