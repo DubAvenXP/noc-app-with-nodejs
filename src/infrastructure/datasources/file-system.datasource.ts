@@ -9,7 +9,7 @@ export class FileSystemDatasource implements LogDataSource {
   private readonly mediumLogsPath = `${this.logPath}/medium.log`;
   private readonly highLogsPath = `${this.logPath}/high.log`;
 
-  private readonly logFilesPath = [
+  private readonly logFilePaths = [
     this.allLogsPath,
     this.mediumLogsPath,
     this.highLogsPath,
@@ -19,28 +19,40 @@ export class FileSystemDatasource implements LogDataSource {
     this.createLogsFiles();
   }
 
+  async saveLog(newLog: LogEntity): Promise<void> {
+    const newLogAsJson = `${JSON.stringify(newLog)}\n`;
+
+    fs.appendFileSync(this.allLogsPath, newLogAsJson);
+
+    this.logFilePaths.forEach((path) => {
+      const logLevel = newLog.level.toLocaleLowerCase();
+
+      if (path.includes(logLevel)) fs.appendFileSync(path, newLogAsJson);
+    });
+  }
+
+  async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
+    const path = `${this.logPath}/${severityLevel}.log`
+
+    if (LogSeverityLevel.low === severityLevel) return this.getLogsFromFile(this.allLogsPath)
+
+    if (!this.logFilePaths.includes(path)) throw new Error(`${severityLevel} not implemented`);
+
+    return this.getLogsFromFile(path);
+  }
+
   private createLogsFiles = () => {
     if (!fs.existsSync(this.logPath)) fs.mkdirSync(this.logPath);
 
-    this.logFilesPath.forEach((path) => {
+    this.logFilePaths.forEach((path) => {
       if (!fs.existsSync(path)) fs.writeFileSync(path, '');
     });
   };
 
-  async saveLog(newLog: LogEntity): Promise<void> {
-    const newLogAsJson = `${JSON.stringify(newLog)}\n`
+  private getLogsFromFile = (path: string): LogEntity[] => {
+    const content = fs.readFileSync(path, 'utf-8');
+    const stringLogs = content.split('\n');
 
-    fs.appendFileSync(this.allLogsPath, newLogAsJson);
-
-    this.logFilesPath.forEach((path) => {
-      const logLevel = newLog.level.toLocaleLowerCase();
-
-      if (path.includes(logLevel)) fs.appendFileSync(path, newLogAsJson);
-    })
-
-
-  }
-  getLogs(severityLevel: LogSeverityLevel): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
+    return stringLogs.map(LogEntity.fromJSON);
+  };
 }
