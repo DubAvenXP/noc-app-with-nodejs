@@ -2,7 +2,6 @@ interface CheckServiceUseCase {
   execute(url: string): Promise<boolean>
 }
 
-
 type SuccessCallback = () => void;
 type ErrorCallback = (error: string) => void;
 
