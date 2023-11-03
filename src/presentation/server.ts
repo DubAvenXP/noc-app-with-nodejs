@@ -12,7 +12,7 @@ const fileSystemLogRepository = new LogRepositoryImplementation(
 export class Server {
   public static start(): void {
     console.log('Server started...');
-    // const emailService = new EmailService();
+    // const emailService = new EmailService(fileSystemLogRepository);
     // emailService.sendEmailWithFileSystemLogs('')
     // CronService.createJob('*/5 * * * * *', () => {
     //   const url = 'https://google.com';
