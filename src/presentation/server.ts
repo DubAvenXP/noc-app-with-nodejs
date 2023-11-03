@@ -12,16 +12,8 @@ const fileSystemLogRepository = new LogRepositoryImplementation(
 export class Server {
   public static start(): void {
     console.log('Server started...');
-    const emailService = new EmailService();
-    emailService.sendEmail({
-      to: 'codaflydevs@gmail.com',
-      subject: `Logs from ${new Date().toISOString()}`,
-      htmlBody: `
-        <h1>Logs from ${new Date().toISOString()}</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
-      `
-    });
+    // const emailService = new EmailService();
+    // emailService.sendEmailWithFileSystemLogs('')
     // CronService.createJob('*/5 * * * * *', () => {
     //   const url = 'https://google.com';
     //   // const url = 'http://localhost:3000';
