@@ -141,3 +141,6 @@ dist
 
 # Jest coverage
 coverage/
+
+# Temporary folder and files
+tmp/
