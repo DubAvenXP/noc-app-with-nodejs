@@ -42,7 +42,7 @@ export const emailBodyTemplate = `
 <body>
   <div class="container">
     <div class="header">
-      Logs from ${new Date().toISOString()}
+      Logs from ${new Date().toLocaleString()}
     </div>
     <div class="content">
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, laborum.</p>
