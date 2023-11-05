@@ -14,3 +14,12 @@ To save logs, you can choose between three different storage options: FileSystem
 Each storage option has its own implementation, which can be found in the `src/infrastructure` directory.
 
 Using the repository pattern, the app can easily be extended to support other storage options.
+
+
+## Steps to run this project:
+
+1. Setup environment variables
+2. Setup gmail account for send emails and add credentials in .env file
+3. Run `npm i` command
+4. Setup database with ```docker-compose up -d```
+5. Run migrations with prisma ```npx prisma migrate dev --name init```
