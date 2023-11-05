@@ -36,7 +36,8 @@ export class LogEntity {
   };
 
   private static buildEntity(object: { [key: string]: any }): LogEntity {
-    const { message, level, createdAt = new Date(), origin = 'log.entity.ts' } = object;
+    const { message, createdAt = new Date(), origin = 'log.entity.ts' } = object;
+    const level = object.level.toLowerCase();
 
     if (typeof message !== 'string' || message.trim() === '') {
       throw new Error('Message is required and must be a non-empty string.');

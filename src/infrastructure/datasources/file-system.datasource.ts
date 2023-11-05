@@ -29,6 +29,8 @@ export class FileSystemDatasource implements LogDataSource {
 
       if (path.includes(logLevel)) fs.appendFileSync(path, newLogAsJson);
     });
+
+    console.log(`Log saved on file all.log and ${newLog.level}.log`);
   }
 
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
