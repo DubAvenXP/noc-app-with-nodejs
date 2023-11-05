@@ -1,5 +1,4 @@
-import { LogSeverityLevel } from '../domain/entities/log.entity';
-import { CheckService } from '../domain/use-cases/checks/check-service';
+import { CheckServiceMultiple } from '../domain/use-cases/checks/check-service';
 import { SendEmailLogs } from '../domain/use-cases/emails/send-email-logs';
 
 import { FileSystemDatasource } from '../infrastructure/datasources/file-system.datasource';
@@ -15,9 +14,7 @@ const fileSystemeDatasource = new FileSystemDatasource();
 const mongoDatasource = new MongoDatasource();
 const postgresDatasource = new PostgresDatasource();
 
-const fileSystemLogRepository = new LogRepositoryImplementation(
-  fileSystemeDatasource
-);
+const fileSystemLogRepository = new LogRepositoryImplementation(fileSystemeDatasource);
 const mongoLogRepository = new LogRepositoryImplementation(mongoDatasource);
 const postgresLogRepository = new LogRepositoryImplementation(postgresDatasource);
 
@@ -26,8 +23,8 @@ export class Server {
     CronService.createJob('*/5 * * * * *', () => {
       const url = 'http://localhost:3000';
 
-      new CheckService(
-        postgresLogRepository,
+      new CheckServiceMultiple(
+        [postgresLogRepository, mongoLogRepository, fileSystemLogRepository],
         () => console.log(`${url} is ok`),
         (error) => console.log(error)
       ).execute(url);

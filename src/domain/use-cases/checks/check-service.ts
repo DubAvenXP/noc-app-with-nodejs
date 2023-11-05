@@ -9,7 +9,7 @@ type ErrorCallback = ((error: string) => void) | undefined;
 
 export class CheckService implements CheckServiceUseCase {
   constructor(
-    private readonly logRepository: LogRepository,
+    private readonly logRepositories: LogRepository[],
     private readonly successCallback: SuccessCallback,
     private readonly errorCallback: ErrorCallback
   ) {}
@@ -26,7 +26,7 @@ export class CheckService implements CheckServiceUseCase {
         origin: 'check-service.ts',
       });
 
-      this.logRepository.saveLog(newLog);
+      this.saveLogs(newLog);
       this.successCallback && this.successCallback();
 
       return true;
@@ -38,10 +38,14 @@ export class CheckService implements CheckServiceUseCase {
         origin: 'check-service.ts',
       });
 
-      this.logRepository.saveLog(log);
+      this.saveLogs(log);
       this.errorCallback && this.errorCallback(errorMessage);
 
       return false;
     }
+  }
+
+  private saveLogs = (log: LogEntity) => {
+    this.logRepositories.forEach(logRepository => logRepository.saveLog(log));
   }
 }
