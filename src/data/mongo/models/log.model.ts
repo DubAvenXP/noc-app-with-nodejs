@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const logSchema = new mongoose.Schema({
   level: {
     type: String,
-    enum: ['Low', 'Medium', 'High'],
+    enum: ['low', 'medium', 'high'],
     default: 'info'
   },
   message: {

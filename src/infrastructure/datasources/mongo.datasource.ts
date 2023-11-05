@@ -1,14 +1,13 @@
-// import fs from 'fs';
-
 import { logModel } from '../../data/mongo';
 import { LogDataSource } from '../../domain/datasources/log.datasource';
 import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity';
 
-export class FileSystemDatasource implements LogDataSource {
+export class MongoDatasource implements LogDataSource {
   constructor() {}
 
   async saveLog(log: LogEntity): Promise<void> {
-    await logModel.create(log);
+    const newLog = await logModel.create(log);
+    console.log(`Mongo log saved: ${newLog.id}`);
   }
 
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {

@@ -26,7 +26,7 @@ export class LogEntity {
     this.createdAt = createdAt;
   }
 
-  static fromJSON = (json: string): LogEntity => {
+  static fromJSON = (json = '{}'): LogEntity => {
     const parsedObject = JSON.parse(json);
     return this.buildEntity(parsedObject);
   };
