@@ -1,7 +1,4 @@
-import { config } from 'dotenv';
-
-config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : undefined });
-
+import 'dotenv/config';
 import * as env from 'env-var';
 
 export const envs = {
