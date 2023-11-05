@@ -27,15 +27,29 @@ export class LogEntity {
   }
 
   static fromJSON = (json: string): LogEntity => {
-    const { message, level, createdAt, origin = 'log.entity.ts' } = JSON.parse(json);
-
-    const log = new LogEntity({
-      message,
-      level,
-      createdAt,
-      origin,
-    });
-
-    return log;
+    const parsedObject = JSON.parse(json);
+    return this.buildEntity(parsedObject);
   };
+
+  static fromObject = (object: { [key: string]: any } ): LogEntity => {
+    return this.buildEntity(object);
+  };
+
+  private static buildEntity(object: { [key: string]: any }): LogEntity {
+    const { message, level, createdAt = new Date(), origin = 'log.entity.ts' } = object;
+
+    if (typeof message !== 'string' || message.trim() === '') {
+      throw new Error('Message is required and must be a non-empty string.');
+    }
+
+    if (!Object.values(LogSeverityLevel).includes(level)) {
+      throw new Error('Level is required and must be a valid LogSeverityLevel.');
+    }
+
+    if (!(createdAt instanceof Date)) {
+      throw new Error('CreatedAt must be a valid Date object.');
+    }
+
+    return new LogEntity({ message, level, createdAt, origin });
+  }
 }
