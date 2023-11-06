@@ -26,8 +26,11 @@ export class LogEntity {
     this.createdAt = createdAt;
   }
 
-  static fromJSON = (json = '{}'): LogEntity => {
+  static fromJSON = (json = ''): LogEntity => {
+    if (!json) throw new Error('JSON string is required.');
+
     const parsedObject = JSON.parse(json);
+
     return this.buildEntity(parsedObject);
   };
 
@@ -36,8 +39,16 @@ export class LogEntity {
   };
 
   private static buildEntity(object: { [key: string]: any }): LogEntity {
-    const { message, createdAt = new Date(), origin = 'log.entity.ts' } = object;
+    const { message, origin = 'log.entity.ts' } = object;
     const level = object.level.toLowerCase();
+
+    let createdAt: unknown = object.createdAt || new Date();
+
+    if (typeof createdAt === 'string') {
+      const parsedDate = new Date(createdAt);
+
+      if (parsedDate.toString() !== 'Invalid Date') createdAt = parsedDate;
+    }
 
     if (typeof message !== 'string' || message.trim() === '') {
       throw new Error('Message is required and must be a non-empty string.');
