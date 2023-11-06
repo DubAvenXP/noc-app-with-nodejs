@@ -12,7 +12,9 @@ export class CheckService implements CheckServiceUseCase {
     private readonly logRepositories: LogRepository[],
     private readonly successCallback: SuccessCallback,
     private readonly errorCallback: ErrorCallback
-  ) {}
+  ) {
+    if (!this.logRepositories.length) throw new Error('Log repositories are required.');
+  }
 
   public async execute(url: string): Promise<boolean> {
     try {
