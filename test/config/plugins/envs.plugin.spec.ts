@@ -15,7 +15,7 @@ describe('envs.plugins.ts', () => {
       POSTGRES_USER: 'alejandro',
       POSTGRES_PASSWORD: '123456789',
       POSTGRES_DB: 'NOC-TEST',
-      POSTGRES_URL: 'postgresql://alejandro:123456789@localhost:5432/NOC?schema=public'
+      POSTGRES_URL: 'postgresql://alejandro:123456789@localhost:5432/NOC-TEST?schema=public'
     });
   });
 
