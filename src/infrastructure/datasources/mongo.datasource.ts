@@ -3,8 +3,6 @@ import { LogDataSource } from '../../domain/datasources/log.datasource';
 import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity';
 
 export class MongoDatasource implements LogDataSource {
-  constructor() {}
-
   async saveLog(log: LogEntity): Promise<void> {
     const newLog = await logModel.create(log);
     console.log(`Log saved with id: ${newLog.id} on MongoDB`);
