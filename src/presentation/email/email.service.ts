@@ -2,14 +2,14 @@ import nodemailer from 'nodemailer';
 import { envs } from '../../config/plugins/envs.plugin';
 import { emailBodyTemplate } from './email-body';
 
-interface SendMailOptions {
+export interface SendMailOptions {
   to: string | string[];
   subject: string;
   html: string;
   attachments?: Attachment[];
 }
 
-interface Attachment {
+export interface Attachment {
   filename: string;
   path: string;
 }
