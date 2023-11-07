@@ -29,8 +29,6 @@ export class FileSystemDatasource implements LogDataSource {
 
       if (path.includes(logLevel)) fs.appendFileSync(path, newLogAsJson);
     });
-
-    console.log(`Log saved on file all.log and ${newLog.level}.log`);
   }
 
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
@@ -56,7 +54,9 @@ export class FileSystemDatasource implements LogDataSource {
 
     if (content.trim() === '') return [];
 
-    const stringLogs = content.split('\n');
+    let stringLogs = content.split('\n');
+
+    stringLogs = stringLogs.filter((stringLog) => stringLog.trim() !== '');
 
     return stringLogs.map(LogEntity.fromJSON);
   };
